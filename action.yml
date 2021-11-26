@@ -33,7 +33,7 @@ runs:
   using: "composite"
   steps:
       - name: Set environment specific variables
-        uses: jnus/json-variables@v0.3
+        uses: jnus/json-variables@4d729bb7248e73b81440da6bee6824e6102d775c
         with:
           scope: ${{inputs.environment}}
           configFile: '${{inputs.variableFile}}'
