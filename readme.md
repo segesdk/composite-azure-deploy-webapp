@@ -44,4 +44,5 @@ segesdk/composite-azure-deploy-webapp@main
          azureCredentials: ${{ secrets.AZURE_SEGES_SYSUDV_UDV_SECRET }}
 ```
 
-
+## Gotchas
+https://confluence.seges.dk/display/SYS/How+to+do+variable+substitution+in+GitHub
