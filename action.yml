@@ -16,6 +16,10 @@ inputs:
   configurationFile:
     description: 'configuration file to perform variable substitution'
     required: true
+  configurationFile1:
+    description: 'additional configuration file to perform variable substitution'
+    required: false
+    default: 'unassigned'
   webAppName:
     description: 'Name of the target webapp'
     required: true
@@ -43,6 +47,13 @@ runs:
         uses: microsoft/variable-substitution@v1
         with:
           files: '${{inputs.configurationFile}}'
+
+      - name: Additinoal App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        if: ${{inputs.configurationFile1}} != 'unassigned'
+        with:
+          files: '${{inputs.configurationFile1}}'
+
 
       - name: Azure login
         uses: azure/login@v1
