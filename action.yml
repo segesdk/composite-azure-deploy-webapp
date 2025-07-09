@@ -16,12 +16,16 @@ inputs:
   configurationFile:
     description: 'configuration file to perform variable substitution'
     required: true
+  configurationFile1:
+    description: 'additional configuration file to perform variable substitution'
+    required: false
+    default: 'unassigned'
   webAppName:
     description: 'Name of the target webapp'
     required: true
   azureCredentials: 
     description: 'Service principal credentials'
-    required: false
+    required: true
   
   
 outputs:
@@ -32,8 +36,9 @@ outputs:
 runs:
   using: "composite"
   steps:
+      # We shouldn't depend on Jaspers public repo for this.
       - name: Set environment specific variables
-        uses: jnus/json-variables@4d729bb7248e73b81440da6bee6824e6102d775c
+        uses: jnus/json-variables@4d729bb7248e73b81440da6bee6824e6102d775c 
         with:
           scope: ${{inputs.environment}}
           configFile: '${{inputs.variableFile}}'
@@ -44,14 +49,20 @@ runs:
         with:
           files: '${{inputs.configurationFile}}'
 
+      - name: Additinoal App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        if: ${{inputs.configurationFile1}} != 'unassigned'
+        with:
+          files: '${{inputs.configurationFile1}}'
+
+
       - name: Azure login
-        if: ${{ inputs.azureCredentials != null && inputs.azureCredentials != '' }}
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           creds: ${{ inputs.azureCredentials }}
 
       - name: Deploy to Azure WebApp
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         id: webApp
         with:
           app-name: ${{inputs.webAppName}}
