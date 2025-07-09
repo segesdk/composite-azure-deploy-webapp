@@ -21,7 +21,7 @@ inputs:
     required: true
   azureCredentials: 
     description: 'Service principal credentials'
-    required: true
+    required: false
   
   
 outputs:
@@ -45,6 +45,7 @@ runs:
           files: '${{inputs.configurationFile}}'
 
       - name: Azure login
+        if: ${{ inputs.azureCredentials != null && inputs.azureCredentials != '' }}
         uses: azure/login@v1
         with:
           creds: ${{ inputs.azureCredentials }}
