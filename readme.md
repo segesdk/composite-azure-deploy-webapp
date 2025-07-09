@@ -28,7 +28,7 @@ segesdk/composite-azure-deploy-webapp@main
 |secrets|Serialized json string for github secrets, used to render environment variables. Syntax: `'${{ toJson(secrets) }}'`|
 |configurationFile|Full path to configuration file to perform variable substitution|
 |webAppName|Name of the target Azure web app|
-|azureCredentials|Service principal credentials|
+|azureCredentials|OPTIONAL: Service principal credentials|
 
 ## Usage example
 ```yaml
